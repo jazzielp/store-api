@@ -3,11 +3,12 @@ import express, {
   type Response,
   type Application,
 } from "express";
+import morgan from "morgan";
 
 import { routerApi } from "./routes";
 
 const app: Application = express();
-
+app.use(morgan("dev"));
 app.use(express.json());
 
 app.get("/", (req: Request, res: Response) => {

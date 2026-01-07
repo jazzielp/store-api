@@ -14,10 +14,12 @@ function getNextId(): number {
   return products.length > 0 ? Math.max(...products.map((p) => p.id)) + 1 : 1;
 }
 
+// Get all products
 routes.get("/", (req: Request, res: Response) => {
   return res.json(products);
 });
 
+// Get a product by ID
 routes.get("/:id", (req: Request, res: Response) => {
   const id = Number(req.params.id);
   if (Number.isNaN(id)) return res.status(400).json({ error: "Invalid id" });
@@ -28,6 +30,7 @@ routes.get("/:id", (req: Request, res: Response) => {
   return res.json(product);
 });
 
+// Create a new product
 routes.post("/", (req: Request, res: Response) => {
   const body = req.body as Partial<NewProduct>;
   if (
@@ -47,6 +50,7 @@ routes.post("/", (req: Request, res: Response) => {
   return res.status(201).json(newProduct);
 });
 
+// Update a product by ID
 routes.put("/:id", (req: Request, res: Response) => {
   const id = Number(req.params.id);
   if (Number.isNaN(id)) return res.status(400).json({ error: "Invalid id" });
@@ -68,6 +72,7 @@ routes.put("/:id", (req: Request, res: Response) => {
   return res.json(updated);
 });
 
+// Delete a product by ID
 routes.delete("/:id", (req: Request, res: Response) => {
   const id = Number(req.params.id);
   if (Number.isNaN(id)) return res.status(400).json({ error: "Invalid id" });
