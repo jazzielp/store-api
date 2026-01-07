@@ -52,4 +52,16 @@ describe("API Store", () => {
     const error = await response.json();
     expect(error).toHaveProperty("error", "Product not found");
   });
+
+  test("POST /products - should return 400 for invalid product payload", async () => {
+    const invalidProduct = { name: "Invalid Product" }; // Missing price
+    const response = await fetch(baseURL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(invalidProduct),
+    });
+    expect(response.status).toBe(400);
+    const error = await response.json();
+    expect(error).toHaveProperty("error", "Failed to validate");
+  });
 });
