@@ -32,7 +32,7 @@ routes.get("/:id", (req: Request, res: Response) => {
 
 // Create a new product
 routes.post("/", (req: Request, res: Response) => {
-  const body = req.body as Partial<NewProduct>;
+  const body = req.body as NewProduct;
   if (
     !body ||
     typeof body.name !== "string" ||
