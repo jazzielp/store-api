@@ -43,57 +43,70 @@ routes.get(
 );
 
 // Create a new product
-routes.post("/", (req: Request, res: Response) => {
-  const body = req.body as NewProduct;
-  if (
-    !body ||
-    typeof body.name !== "string" ||
-    typeof body.price !== "number"
-  ) {
-    return res.status(400).json({ error: "Invalid product payload" });
-  }
+routes.post(
+  "/",
+  validate(createProdcutSchema),
+  (req: Request, res: Response) => {
+    const body = req.body as NewProduct;
+    if (
+      !body ||
+      typeof body.name !== "string" ||
+      typeof body.price !== "number"
+    ) {
+      return res.status(400).json({ error: "Invalid product payload" });
+    }
 
-  const newProduct: Product = {
-    id: getNextId(),
-    name: body.name,
-    price: body.price,
-  };
-  products.push(newProduct);
-  return res.status(201).json(newProduct);
-});
+    const newProduct: Product = {
+      id: getNextId(),
+      name: body.name,
+      price: body.price,
+    };
+    products.push(newProduct);
+    return res.status(201).json(newProduct);
+  }
+);
 
 // Update a product by ID
-routes.put("/:id", (req: Request, res: Response) => {
-  const id = Number(req.params.id);
-  if (Number.isNaN(id)) return res.status(400).json({ error: "Invalid id" });
+routes.put(
+  "/:id",
+  validate(getProductSchema),
+  validate(updateProductSchema),
+  (req: Request, res: Response) => {
+    const id = Number(req.params.id);
+    if (Number.isNaN(id)) return res.status(400).json({ error: "Invalid id" });
 
-  const body = req.body as Partial<NewProduct>;
-  if (
-    !body ||
-    (body.name !== undefined && typeof body.name !== "string") ||
-    (body.price !== undefined && typeof body.price !== "number")
-  ) {
-    return res.status(400).json({ error: "Invalid product payload" });
+    const body = req.body as Partial<NewProduct>;
+    if (
+      !body ||
+      (body.name !== undefined && typeof body.name !== "string") ||
+      (body.price !== undefined && typeof body.price !== "number")
+    ) {
+      return res.status(400).json({ error: "Invalid product payload" });
+    }
+
+    const idx = products.findIndex((p) => p.id === id);
+    if (idx === -1) return res.status(404).json({ error: "Product not found" });
+
+    const updated: Product = { ...products[idx], ...body } as Product;
+    products[idx] = updated;
+    return res.json(updated);
   }
-
-  const idx = products.findIndex((p) => p.id === id);
-  if (idx === -1) return res.status(404).json({ error: "Product not found" });
-
-  const updated: Product = { ...products[idx], ...body } as Product;
-  products[idx] = updated;
-  return res.json(updated);
-});
+);
 
 // Delete a product by ID
-routes.delete("/:id", (req: Request, res: Response) => {
-  const id = Number(req.params.id);
-  if (Number.isNaN(id)) return res.status(400).json({ error: "Invalid id" });
+routes.delete(
+  "/:id",
+  validate(getProductSchema),
+  (req: Request, res: Response) => {
+    const id = Number(req.params.id);
+    if (Number.isNaN(id)) return res.status(400).json({ error: "Invalid id" });
 
-  const idx = products.findIndex((p) => p.id === id);
-  if (idx === -1) return res.status(404).json({ error: "Product not found" });
+    const idx = products.findIndex((p) => p.id === id);
+    if (idx === -1) return res.status(404).json({ error: "Product not found" });
 
-  products = products.filter((p) => p.id !== id);
-  return res.status(204).send();
-});
+    products = products.filter((p) => p.id !== id);
+    return res.status(204).send();
+  }
+);
 
 export default routes;
