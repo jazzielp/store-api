@@ -24,8 +24,9 @@ export const updateProductSchema = z.object({
 
 export const getProductSchema = z.object({
   params: z.object({
-    id: z.number({
-      message: "Id is required",
-    }),
+    id: z.preprocess((val) => {
+      if (typeof val === "string" && val.trim() !== "") return Number(val);
+      return val;
+    }, z.number({ message: "Id is required" })),
   }),
 });

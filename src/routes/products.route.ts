@@ -1,4 +1,12 @@
 import express, { type Request, type Response, type Router } from "express";
+
+import { validate } from "../middlewares/validate";
+import {
+  createProdcutSchema,
+  getProductSchema,
+  updateProductSchema,
+} from "../schemas/products.schema";
+
 const routes: Router = express.Router();
 
 type Product = { id: number; name: string; price: number };
@@ -20,15 +28,19 @@ routes.get("/", (req: Request, res: Response) => {
 });
 
 // Get a product by ID
-routes.get("/:id", (req: Request, res: Response) => {
-  const id = Number(req.params.id);
-  if (Number.isNaN(id)) return res.status(400).json({ error: "Invalid id" });
+routes.get(
+  "/:id",
+  validate(getProductSchema),
+  (req: Request, res: Response) => {
+    const id = Number(req.params.id);
+    if (Number.isNaN(id)) return res.status(400).json({ error: "Invalid id" });
 
-  const product = products.find((p) => p.id === id);
-  if (!product) return res.status(404).json({ error: "Product not found" });
+    const product = products.find((p) => p.id === id);
+    if (!product) return res.status(404).json({ error: "Product not found" });
 
-  return res.json(product);
-});
+    return res.json(product);
+  }
+);
 
 // Create a new product
 routes.post("/", (req: Request, res: Response) => {
