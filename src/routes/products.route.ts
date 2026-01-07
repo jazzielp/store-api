@@ -6,11 +6,9 @@ import {
   getProductSchema,
   updateProductSchema,
 } from "@/schemas/products.schema";
+import type { NewProduct, Product } from "@/type";
 
 const routes: Router = express.Router();
-
-type Product = { id: number; name: string; price: number };
-type NewProduct = { name: string; price: number };
 
 let products: Product[] = [
   { id: 1, name: "Product A", price: 100 },

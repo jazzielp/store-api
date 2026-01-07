@@ -7,7 +7,7 @@ import morgan from "morgan";
 
 import { routerApi } from "./routes";
 
-const app: Application = express();
+export const app: Application = express();
 app.use(morgan("dev"));
 app.use(express.json());
 
@@ -18,7 +18,7 @@ app.get("/", (req: Request, res: Response) => {
 routerApi(app);
 
 app.listen(3000, () => {
-  console.log("Server is running on http://localhost:3000");
+  console.log(`Server is running on ${process.env.BASE_URL}`);
 });
 
 console.log("Hello via Bun!");
