@@ -1,5 +1,5 @@
 import express, { type Application } from "express";
-import productRoutes from "./products.route";
+import productRoutes from "./products.route.ts";
 
 export function routerApi(app: Application): void {
   const router = express.Router();

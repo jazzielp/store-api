@@ -1,11 +1,11 @@
 import express, { type Request, type Response, type Router } from "express";
 
-import { validate } from "../middlewares/validate";
+import { validate } from "@/middlewares/validate";
 import {
   createProdcutSchema,
   getProductSchema,
   updateProductSchema,
-} from "../schemas/products.schema";
+} from "@/schemas/products.schema";
 
 const routes: Router = express.Router();
 
