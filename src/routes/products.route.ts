@@ -4,7 +4,7 @@ import {
   createProdcutSchema,
   getProductSchema,
   updateProductSchema,
-} from "@/schemas/products.schema";
+} from "@/schemas/product.schema";
 import * as ProductController from "@/controllers/product.controller";
 
 const routes: Router = express.Router();

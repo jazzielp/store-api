@@ -2,7 +2,7 @@ import { describe, test, expect, beforeAll, afterAll } from "bun:test";
 import { app } from "@/index.ts";
 import type { NewProduct, Product } from "@/type";
 
-describe("API Store", () => {
+describe("Product test", () => {
   let server: any;
   let baseURL: string;
 
