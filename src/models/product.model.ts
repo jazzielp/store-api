@@ -1,4 +1,5 @@
 import type { Product, NewProduct } from "@/type";
+import prisma from "@/lib/prisma";
 
 let products: Product[] = [
   { id: 1, name: "Product A", price: 100 },
@@ -11,6 +12,12 @@ function getNextId(): number {
 }
 
 export const findAll = async (): Promise<Product[]> => {
+  try {
+    const products = await prisma.product.findMany();
+    return products;
+  } catch (error) {
+    throw error;
+  }
   return products;
 };
 
