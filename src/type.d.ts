@@ -8,8 +8,8 @@ export type NewProduct = { name: string; description: string; price: number };
 
 export type User = {
   id: number;
-  username: string;
   email: string;
   password: string;
+  fullname: string;
 };
-export type NewUser = { username: string; email: string; password: string };
+export type NewUser = { fullname: string; email: string; password: string };
