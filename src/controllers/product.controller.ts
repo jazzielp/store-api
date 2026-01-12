@@ -35,5 +35,7 @@ export const remove = async (req: Request, res: Response) => {
   if (Number.isNaN(id)) return res.status(400).json({ error: "Invalid id" });
   const deleted = await ProductModel.deleteProduct(id);
   if (!deleted) return res.status(404).json({ error: "Product not found" });
-  return res.status(204).send();
+  return res
+    .status(204)
+    .send(`El producto ${deleted.name} con id ${deleted.id} ha sido eliminado`);
 };

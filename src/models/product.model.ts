@@ -57,9 +57,10 @@ export const updateProduct = async (id: number, patch: Partial<NewProduct>) => {
 
 export const deleteProduct = async (id: number) => {
   try {
-    await prisma.product.delete({
+    const product = await prisma.product.delete({
       where: { id },
     });
+    return { id: product.id, name: product.name };
   } catch (error) {
     throw error;
   }
