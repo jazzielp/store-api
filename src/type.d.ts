@@ -1,5 +1,10 @@
-export type Product = { id: number; name: string; price: number };
-export type NewProduct = { name: string; price: number };
+export type Product = {
+  id: number;
+  description: string;
+  name: string;
+  price: number;
+};
+export type NewProduct = { name: string; description: string; price: number };
 
 export type User = {
   id: number;

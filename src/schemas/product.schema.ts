@@ -7,6 +7,7 @@ export const createProdcutSchema = z.object({
         message: "Name is required",
       })
       .min(1, "Name cannot be empty"),
+    description: z.string().optional(),
     price: z
       .number({
         message: "Price is required",
@@ -18,6 +19,7 @@ export const createProdcutSchema = z.object({
 export const updateProductSchema = z.object({
   body: z.object({
     name: z.string().min(1, "Name cannot be empty").optional(),
+    description: z.string().optional(),
     price: z.number().nonnegative("Price cannot be negative").optional(),
   }),
 });
