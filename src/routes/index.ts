@@ -1,6 +1,7 @@
 import express, { type Application } from "express";
-import productRoutes from "./products.route.ts";
-import userRoutes from "./user.route.ts";
+import productRoutes from "./products.route";
+import userRoutes from "./user.route";
+import authRoutes from "./auth.route";
 
 export function routerApi(app: Application): void {
   const router = express.Router();
@@ -8,4 +9,5 @@ export function routerApi(app: Application): void {
 
   router.use("/products", productRoutes);
   router.use("/users", userRoutes);
+  router.use("/auth", authRoutes);
 }

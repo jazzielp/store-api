@@ -5,6 +5,7 @@ import express, {
 } from "express";
 import morgan from "morgan";
 
+import { PORT } from "@/config/config";
 import { routerApi } from "./routes";
 
 export const app: Application = express();
@@ -17,8 +18,8 @@ app.get("/", (req: Request, res: Response) => {
 
 routerApi(app);
 
-app.listen(3000, () => {
-  console.log(`Server is running on ${process.env.BASE_URL}`);
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${process.env.PORT}`);
 });
 
 console.log("Hello via Bun!");

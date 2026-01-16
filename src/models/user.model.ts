@@ -1,8 +1,8 @@
 import { prisma } from "@/lib/prisma";
-import type { User, NewUser } from "@/type";
+import type { NewUser } from "@/type";
 import { hashPassword } from "@/lib/hashPassword";
 
-export const findAll = async () => {
+export const findAllUser = async () => {
   try {
     const users = await prisma.user.findMany({
       select: {
@@ -17,7 +17,7 @@ export const findAll = async () => {
   }
 };
 
-export const findById = async (id: number) => {
+export const findByIdUser = async (id: number) => {
   try {
     const user = await prisma.user.findUnique({
       where: { id },
@@ -29,7 +29,19 @@ export const findById = async (id: number) => {
   }
 };
 
-export const createProduct = async (data: NewUser) => {
+export const findByEmailUser = async (email: string) => {
+  try {
+    const user = await prisma.user.findUnique({
+      where: { email },
+    });
+    return user || null;
+  } catch (error) {
+    console.error("Error fetching user by email:", error);
+    throw error;
+  }
+};
+
+export const createUser = async (data: NewUser) => {
   try {
     const hashedPassword = (await hashPassword(data.password)) as string;
     const user = await prisma.user.create({
@@ -46,7 +58,7 @@ export const createProduct = async (data: NewUser) => {
   }
 };
 
-export const updateProduct = async (id: number, patch: Partial<NewUser>) => {
+export const updateUser = async (id: number, patch: Partial<NewUser>) => {
   try {
     const existingUser = await prisma.user.findUnique({ where: { id } });
     if (!existingUser) {
@@ -72,7 +84,7 @@ export const updateProduct = async (id: number, patch: Partial<NewUser>) => {
   }
 };
 
-export const deleteProduct = async (id: number) => {
+export const deleteUser = async (id: number) => {
   try {
     await prisma.user.delete({
       where: { id },

@@ -13,3 +13,8 @@ export type User = {
   fullname: string;
 };
 export type NewUser = { fullname: string; email: string; password: string };
+
+export type Login = {
+  email: string;
+  password: string;
+};
