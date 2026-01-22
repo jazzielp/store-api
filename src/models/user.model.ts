@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import type { NewUser } from "@/type";
+import type { NewUser } from "@/types/type";
 import { hashPassword } from "@/lib/hashPassword";
 
 export const findAllUser = async () => {

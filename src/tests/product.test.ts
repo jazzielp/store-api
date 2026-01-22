@@ -1,6 +1,6 @@
 import { describe, test, expect, beforeAll, afterAll } from "bun:test";
 import { app } from "@/index.ts";
-import type { NewProduct, Product } from "@/type";
+import type { NewProduct, Product } from "@/types/type";
 
 describe("Product test", () => {
   let server: any;

@@ -1,5 +1,6 @@
 import express, { type Router } from "express";
 import { validate } from "@/middlewares/validate";
+import { authenticate } from "@/middlewares/auth";
 import {
   createProdcutSchema,
   getProductSchema,
@@ -11,13 +12,24 @@ const routes: Router = express.Router();
 
 routes.get("/", ProductController.getAll);
 routes.get("/:id", validate(getProductSchema), ProductController.getById);
-routes.post("/", validate(createProdcutSchema), ProductController.create);
+routes.post(
+  "/",
+  authenticate,
+  validate(createProdcutSchema),
+  ProductController.create
+);
 routes.put(
   "/:id",
+  authenticate,
   validate(getProductSchema),
   validate(updateProductSchema),
   ProductController.update
 );
-routes.delete("/:id", validate(getProductSchema), ProductController.remove);
+routes.delete(
+  "/:id",
+  authenticate,
+  validate(getProductSchema),
+  ProductController.remove
+);
 
 export default routes;

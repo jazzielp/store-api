@@ -1,4 +1,4 @@
-import type { Product, NewProduct } from "@/type";
+import type { Product, NewProduct } from "@/types/type";
 import { prisma } from "@/lib/prisma";
 
 // let products: any = [

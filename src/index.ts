@@ -4,6 +4,7 @@ import express, {
   type Application,
 } from "express";
 import morgan from "morgan";
+import cookieParser from "cookie-parser";
 
 import { PORT } from "@/config/config";
 import { routerApi } from "./routes";
@@ -11,6 +12,7 @@ import { routerApi } from "./routes";
 export const app: Application = express();
 app.use(morgan("dev"));
 app.use(express.json());
+app.use(cookieParser());
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello via Bun and Express!");
