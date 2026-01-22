@@ -9,7 +9,6 @@ export const authenticate = (
 ) => {
   // Intentar obtener el token de la cookie primero
   let token = req.cookies.token;
-  console.log("🚀 ~ authenticate ~ token:", token);
 
   // Si no está en cookie, buscar en el header Authorization
   if (!token) {
@@ -35,8 +34,15 @@ export const authenticate = (
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET as string);
-    console.log("🚀 ~ authenticate ~ decoded:", decoded);
-    req.user = decoded; // Guardar los datos del usuario en el request
+
+    if (typeof decoded === "string") {
+      return res.status(401).json({ error: "Invalid token payload" });
+    }
+
+    req.user = {
+      id: decoded.id,
+      email: decoded.email,
+    }; // Guardar los datos del usuario en el request
     return next();
   } catch (error) {
     return res.status(401).json({ error: "Invalid or expired token" });
