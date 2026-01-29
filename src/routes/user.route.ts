@@ -1,5 +1,6 @@
 import express, { type Router } from "express";
 import { validate } from "@/middlewares/validate";
+import { authenticate } from "@/middlewares/auth";
 import {
   createUserSchema,
   getUserSchema,
@@ -8,15 +9,31 @@ import {
 import * as UserController from "@/controllers/user.controller";
 
 const routes: Router = express.Router();
-routes.get("/", UserController.getAll);
-routes.get("/:id", validate(getUserSchema), UserController.getById);
-routes.post("/", validate(createUserSchema), UserController.create);
+routes.get("/", authenticate, UserController.getAll);
+routes.get(
+  "/:id",
+  authenticate,
+  validate(getUserSchema),
+  UserController.getById,
+);
+routes.post(
+  "/",
+  authenticate,
+  validate(createUserSchema),
+  UserController.create,
+);
 routes.put(
   "/:id",
+  authenticate,
   validate(getUserSchema),
   validate(updateUserSchema),
-  UserController.update
+  UserController.update,
 );
-routes.delete("/:id", validate(getUserSchema), UserController.remove);
+routes.delete(
+  "/:id",
+  authenticate,
+  validate(getUserSchema),
+  UserController.remove,
+);
 
 export default routes;

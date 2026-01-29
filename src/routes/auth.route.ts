@@ -9,6 +9,6 @@ const routes: Router = express.Router();
 routes.post("/login", AuthController.login);
 
 routes.post("/register", (req, res) => {});
-routes.post("/logout", (req, res) => {});
+routes.post("/logout", AuthController.logout);
 
 export default routes;
