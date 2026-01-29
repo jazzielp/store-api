@@ -7,33 +7,34 @@ import {
   updateUserSchema,
 } from "@/schemas/user.schema.ts";
 import * as UserController from "@/controllers/user.controller";
+import { asyncHandler } from "@/utils/asyncHandler";
 
 const routes: Router = express.Router();
-routes.get("/", authenticate, UserController.getAll);
+routes.get("/", authenticate, asyncHandler(UserController.getAll));
 routes.get(
   "/:id",
   authenticate,
   validate(getUserSchema),
-  UserController.getById,
+  asyncHandler(UserController.getById),
 );
 routes.post(
   "/",
   authenticate,
   validate(createUserSchema),
-  UserController.create,
+  asyncHandler(UserController.create),
 );
 routes.put(
   "/:id",
   authenticate,
   validate(getUserSchema),
   validate(updateUserSchema),
-  UserController.update,
+  asyncHandler(UserController.update),
 );
 routes.delete(
   "/:id",
   authenticate,
   validate(getUserSchema),
-  UserController.remove,
+  asyncHandler(UserController.remove),
 );
 
 export default routes;

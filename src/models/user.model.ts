@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import type { NewUser } from "@/types/type";
 import { hashPassword } from "@/lib/hashPassword";
+import { ApiError } from "@/errors/ApiError";
 
 export const findAllUser = async () => {
   try {
@@ -52,8 +53,17 @@ export const createUser = async (data: NewUser) => {
     });
 
     return user;
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error creating user:", error);
+
+    // Ejemplo de control de unique constraint (ajusta al código real de Prisma 7)
+    if (error.code === "P2002") {
+      // campo único duplicado
+      throw ApiError.conflict("Email already in use", {
+        target: error.meta?.target,
+      });
+    }
+
     throw error;
   }
 };

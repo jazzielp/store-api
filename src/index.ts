@@ -8,6 +8,7 @@ import cookieParser from "cookie-parser";
 
 import { PORT } from "@/config/config";
 import { routerApi } from "./routes";
+import { errorHandler } from "@/middlewares/errorHandler";
 
 export const app: Application = express();
 app.use(morgan("dev"));
@@ -19,6 +20,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 routerApi(app);
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${process.env.PORT}`);

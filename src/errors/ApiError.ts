@@ -30,7 +30,7 @@ export class ApiError extends Error {
     this.statusCode = statusCode;
     this.code = code;
     this.details = details;
-    Object.setPrototypeOf(this, ApiError.prototype);
+    // Object.setPrototypeOf(this, ApiError.prototype);
   }
 
   static badRequest(message = "Bad request", details?: unknown) {

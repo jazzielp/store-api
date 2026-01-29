@@ -7,29 +7,34 @@ import {
   updateProductSchema,
 } from "@/schemas/product.schema";
 import * as ProductController from "@/controllers/product.controller";
+import { asyncHandler } from "@/utils/asyncHandler";
 
 const routes: Router = express.Router();
 
-routes.get("/", ProductController.getAll);
-routes.get("/:id", validate(getProductSchema), ProductController.getById);
+routes.get("/", asyncHandler(ProductController.getAll));
+routes.get(
+  "/:id",
+  validate(getProductSchema),
+  asyncHandler(ProductController.getById),
+);
 routes.post(
   "/",
   authenticate,
   validate(createProdcutSchema),
-  ProductController.create
+  asyncHandler(ProductController.create),
 );
 routes.put(
   "/:id",
   authenticate,
   validate(getProductSchema),
   validate(updateProductSchema),
-  ProductController.update
+  asyncHandler(ProductController.update),
 );
 routes.delete(
   "/:id",
   authenticate,
   validate(getProductSchema),
-  ProductController.remove
+  asyncHandler(ProductController.remove),
 );
 
 export default routes;

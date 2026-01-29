@@ -1,6 +1,7 @@
 import type { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "@/config/config";
+import { ApiError } from "@/errors/ApiError";
 
 export const authenticate = (
   req: Request,
@@ -25,18 +26,26 @@ export const authenticate = (
 
   // Si no hay token en ningún lado
   if (!token) {
-    return res.status(401).json({ error: "Authorization token required" });
+    return next(
+      new ApiError(401, "AUTH_ERROR", "Authorization token required"),
+    );
   }
 
   if (!JWT_SECRET) {
-    return res.status(500).json({ error: "JWT secret is not configured" });
+    return next(
+      new ApiError(
+        500,
+        "INTERNAL_SERVER_ERROR",
+        "JWT secret is not configured",
+      ),
+    );
   }
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET as string);
 
     if (typeof decoded === "string") {
-      return res.status(401).json({ error: "Invalid token payload" });
+      return next(new ApiError(401, "AUTH_ERROR", "Invalid token payload"));
     }
 
     req.user = {
@@ -45,6 +54,6 @@ export const authenticate = (
     }; // Guardar los datos del usuario en el request
     return next();
   } catch (error) {
-    return res.status(401).json({ error: "Invalid or expired token" });
+    return next(new ApiError(401, "AUTH_ERROR", "Invalid or expired token"));
   }
 };
