@@ -6,6 +6,13 @@ export type Product = {
 };
 export type NewProduct = { name: string; description: string; price: number };
 
+export type Brand = {
+  id: number;
+  name: string;
+  description: string;
+};
+export type NewBrand = { name: string; description?: string };
+
 export type User = {
   id: number;
   email: string;
