@@ -34,6 +34,11 @@ export const update = async (req: Request, res: Response) => {
     throw ApiError.badRequest("Invalid id");
   }
 
+  const existing = await ProductModel.findById(id);
+  if (!existing) {
+    throw ApiError.notFound("Product not found");
+  }
+
   const patch = req.body as Partial<NewProduct>;
   const updated = await ProductModel.updateProduct(id, patch);
   if (!updated) {
@@ -47,6 +52,11 @@ export const remove = async (req: Request, res: Response) => {
   const id = Number(req.params.id);
   if (Number.isNaN(id)) {
     throw ApiError.badRequest("Invalid id");
+  }
+
+  const existing = await ProductModel.findById(id);
+  if (!existing) {
+    throw ApiError.notFound("Product not found");
   }
 
   const deleted = await ProductModel.deleteProduct(id);

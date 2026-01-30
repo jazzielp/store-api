@@ -4,7 +4,12 @@ export type Product = {
   name: string;
   price: number;
 };
-export type NewProduct = { name: string; description: string; price: number };
+export type NewProduct = {
+  name: string;
+  description: string;
+  price: number;
+  brandId?: number;
+};
 
 export type Brand = {
   id: number;

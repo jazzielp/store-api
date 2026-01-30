@@ -1,12 +1,6 @@
 import type { Product, NewProduct } from "@/types/type";
 import { prisma } from "@/lib/prisma";
 
-// let products: any = [
-//   { id: 1, name: "Product A", price: 100 },
-//   { id: 2, name: "Product B", price: 150 },
-//   { id: 3, name: "Product C", price: 200 },
-// ];
-
 export const findAll = async () => {
   try {
     const products = await prisma.product.findMany();
@@ -29,12 +23,13 @@ export const findById = async (id: number) => {
 
 export const createProduct = async (data: NewProduct) => {
   try {
-    const { name, description, price } = data;
+    const { name, description, price, brandId } = data;
     const product = await prisma.product.create({
       data: {
         name,
         description,
         price,
+        brandId,
       },
     });
     return product;
