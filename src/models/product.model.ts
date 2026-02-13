@@ -3,7 +3,15 @@ import { prisma } from "@/lib/prisma";
 
 export const findAll = async () => {
   try {
-    const products = await prisma.product.findMany();
+    const products = await prisma.product.findMany({
+      include: {
+        brand: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    });
     return products;
   } catch (error) {
     throw error;
@@ -14,6 +22,9 @@ export const findById = async (id: number) => {
   try {
     const product = await prisma.product.findUnique({
       where: { id },
+      include: {
+        brand: true,
+      },
     });
     return product;
   } catch (error) {
